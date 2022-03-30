@@ -39,3 +39,38 @@ export const categories = [
     title: "KERAJINAN GERABAH",
   },
 ];
+
+export const popularProducts = [
+  {
+    id: 1,
+    img: "https://drive.google.com/uc?id=1wdirquTbKL-jx9Azzo_sm3PzKGxrTF0r",
+  },
+  {
+    id: 2,
+    img: "https://drive.google.com/uc?id=1YAWjnP64nnRO54MU8ypgzcBBgEXUo3Qh",
+  },
+  {
+    id: 3,
+    img: "https://drive.google.com/uc?id=1NGblvJ2BBBnTvUrNnaAmXLkyp1iZGst3",
+  },
+  {
+    id: 4,
+    img: "https://drive.google.com/uc?id=1Oz7ZBv6UKxrlDst8y6ChKIoJr3mzF43V",
+  },
+  {
+    id: 5,
+    img: "https://drive.google.com/uc?id=12wbr82MVukJ135CPWPhlxrgKExZ8mzoW",
+  },
+  {
+    id: 6,
+    img: "https://drive.google.com/uc?id=1ZT6dTGFdwj5h4XCz8NtHGPEDGuvglvnB",
+  },
+  {
+    id: 7,
+    img: "https://drive.google.com/uc?id=1gGRxCG-OGikVm4bdwqZpQoiFIFI2qv4a",
+  },
+  {
+    id: 8,
+    img: "https://drive.google.com/uc?id=1MR-yMV5D89d1pr0oIraJWSP4MEqN1BNn",
+  },
+];
