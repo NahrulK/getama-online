@@ -5,7 +5,8 @@ import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import Products from "../components/Products";
 import { mobile } from "../responsive";
-
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
 const Container = styled.div``;
 const Title = styled.h1`
   margin: 20px;
@@ -34,6 +35,19 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductList = () => {
+  const location = useLocation();
+  const cat = location.pathname.split("/")[2];
+  const [filters, setFilters] = useState({});
+  const [sort, setSort] = useState("sesuai");
+
+  const handleFilters = (e) => {
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      [e.target.name]: value,
+    });
+  };
+
   return (
     <Container>
       <Navbar />
@@ -42,18 +56,14 @@ const ProductList = () => {
       <FilterContainer>
         <Filter>
           <FilterText>Filter Produk: </FilterText>
-          <Select>
-            <Option disabled selected>
-              - Kategori Barang -
-            </Option>
+          <Select name="color" onChange={handleFilters}>
+            <Option disabled>- Kategori Barang -</Option>
             <Option>Genteng </Option>
             <Option>Batu Bata</Option>
             <Option>Gerabah</Option>
           </Select>
-          <Select>
-            <Option disabled selected>
-              - Jenis Barang -
-            </Option>
+          <Select name="size" onChange={handleFilters}>
+            <Option disabled>- Jenis Barang -</Option>
             <Option>Genteng Buwung</Option>
             <Option>Genteng Kecil</Option>
             <Option>Genteng Besar</Option>
@@ -65,16 +75,16 @@ const ProductList = () => {
         </Filter>
         <Filter>
           <FilterText>Urutkan: </FilterText>
-          <Select>
-            <Option selected>Paling Sesuai</Option>
-            <Option>Terbaru</Option>
-            <Option>Harga Terendah</Option>
-            <Option>harga Tertinggi</Option>
-            <Option>Jenis Produk</Option>
+          <Select onChange={(e) => setSort(e.target.value)}>
+            <Option value="sesuai">Paling Sesuai</Option>
+            <Option value="terbaru">Terbaru</Option>
+            <Option value="terendah">Harga Terendah</Option>
+            <Option value="tertinggi">harga Tertinggi</Option>
+            <Option value="jenis">Jenis Produk</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
+      <Products cat={cat} filters={filters} sort={sort} />
       <Newsletter />
       <Footer />
     </Container>
