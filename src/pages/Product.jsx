@@ -5,6 +5,11 @@ import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { Add, Remove } from "@material-ui/icons";
 import { mobile } from "../responsive";
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import { publicRequest } from "../requestMethods";
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
 
 const Container = styled.div``;
 
@@ -104,45 +109,78 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [product, setProdutc] = useState({});
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const dispatch = useDispatch();
+
+  // mendapatan id product
+  useState(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get("/products/find/" + id);
+        setProdutc(res.data);
+      } catch {}
+    };
+    getProduct();
+  }, [id]);
+
+  // funsgsi tambah kurang quantity
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  // fungsi clik add to cart dengan redux
+  const handleClick = () => {
+    dispatch(addProduct({ ...product, quantity, color, size }));
+  };
+
   return (
     <Container>
       <Navbar />
       <Announcement />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://drive.google.com/uc?id=1YAWjnP64nnRO54MU8ypgzcBBgEXUo3Qh" />
+          <Image src={product.img} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Kalitemu Super XL</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto
-            voluptate fugiat quo fuga nesciunt natus earum libero a magni id est
-            cupiditate placeat explicabo et, similique ad minima sapiente ipsam?
-          </Desc>
-          <Price>Rp. 1000</Price>
+          <Title>{product.title}</Title>
+          <Desc>{product.desc}</Desc>
+          <Price>Rp.{product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Warna Cat</FilterTitle>
-              <FilterColor color="red" />
-              <FilterColor color="teal" />
-              <FilterColor color="brown" />
+              {product.color?.map((cet) => (
+                <FilterColor
+                  color={cet}
+                  key={cet}
+                  onClick={() => setColor(cet)}
+                />
+              ))}
             </Filter>
             <Filter>
               <FilterTitle>Merek Cat</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>Tarta</FilterSizeOption>
-                <FilterSizeOption>Nippon Paint</FilterSizeOption>
-                <FilterSizeOption>Super Poll</FilterSizeOption>
+              <FilterSize onChange={(e) => setSize(e.target.value)}>
+                {product.merekcet?.map((cet) => (
+                  <FilterSizeOption>{cet}</FilterSizeOption>
+                ))}
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove onClick={() => handleQuantity("dec")} />
+              <Amount>{quantity}</Amount>
+              <Add onClick={() => handleQuantity("inc")} />
             </AmountContainer>
-            <Button>TAMBAH KERANJANG</Button>
+            <Button onClick={handleClick}>TAMBAH KERANJANG</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

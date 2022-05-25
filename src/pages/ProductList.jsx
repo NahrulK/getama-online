@@ -7,6 +7,8 @@ import Products from "../components/Products";
 import { mobile } from "../responsive";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
+import { categories } from "../data";
+import ButtonItemscat from "../components/ButtonItemscat";
 const Container = styled.div``;
 const Title = styled.h1`
   margin: 20px;
@@ -48,29 +50,27 @@ const ProductList = () => {
     });
   };
 
+  console.log(cat, filters, sort);
   return (
     <Container>
       <Navbar />
       <Announcement />
-      <Title>Dresses</Title>
+      <Title>Menampilkan : {cat}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Produk: </FilterText>
-          <Select name="color" onChange={handleFilters}>
-            <Option disabled>- Kategori Barang -</Option>
-            <Option>Genteng </Option>
-            <Option>Batu Bata</Option>
-            <Option>Gerabah</Option>
-          </Select>
+
+          {categories.map((item) => (
+            <ButtonItemscat item={item} key={item.id} />
+          ))}
+
           <Select name="size" onChange={handleFilters}>
-            <Option disabled>- Jenis Barang -</Option>
-            <Option>Genteng Buwung</Option>
-            <Option>Genteng Kecil</Option>
-            <Option>Genteng Besar</Option>
-            <Option>Genteng Bali</Option>
-            <Option>Genteng Mentah</Option>
-            <Option>Batu Bata Biasa</Option>
-            <Option>Batu Bata Premuim</Option>
+            <Option disabled>- Pilih Ukuran -</Option>
+            <Option value="S">S</Option>
+            <Option value="M">M</Option>
+            <Option value="L">L</Option>
+            <Option value="XL">XL</Option>
+            <Option value="F">F</Option>
           </Select>
         </Filter>
         <Filter>
@@ -85,6 +85,7 @@ const ProductList = () => {
         </Filter>
       </FilterContainer>
       <Products cat={cat} filters={filters} sort={sort} />
+
       <Newsletter />
       <Footer />
     </Container>
