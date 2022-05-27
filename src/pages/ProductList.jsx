@@ -5,7 +5,10 @@ import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import Products from "../components/Products";
 import { mobile } from "../responsive";
-
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import { categories } from "../data";
+import ButtonItemscat from "../components/ButtonItemscat";
 const Container = styled.div``;
 const Title = styled.h1`
   margin: 20px;
@@ -34,47 +37,55 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductList = () => {
+  const location = useLocation();
+  const cat = location.pathname.split("/")[2];
+  const [filters, setFilters] = useState({});
+  const [sort, setSort] = useState("sesuai");
+
+  const handleFilters = (e) => {
+    const value = e.target.value;
+    setFilters({
+      ...filters,
+      [e.target.name]: value,
+    });
+  };
+
+  console.log(cat, filters, sort);
   return (
     <Container>
       <Navbar />
       <Announcement />
-      <Title>Dresses</Title>
+      <Title>Menampilkan : {cat}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Produk: </FilterText>
-          <Select>
-            <Option disabled selected>
-              - Kategori Barang -
-            </Option>
-            <Option>Genteng </Option>
-            <Option>Batu Bata</Option>
-            <Option>Gerabah</Option>
-          </Select>
-          <Select>
-            <Option disabled selected>
-              - Jenis Barang -
-            </Option>
-            <Option>Genteng Buwung</Option>
-            <Option>Genteng Kecil</Option>
-            <Option>Genteng Besar</Option>
-            <Option>Genteng Bali</Option>
-            <Option>Genteng Mentah</Option>
-            <Option>Batu Bata Biasa</Option>
-            <Option>Batu Bata Premuim</Option>
+
+          {categories.map((item) => (
+            <ButtonItemscat item={item} key={item.id} />
+          ))}
+
+          <Select name="size" onChange={handleFilters}>
+            <Option disabled>- Pilih Ukuran -</Option>
+            <Option value="S">S</Option>
+            <Option value="M">M</Option>
+            <Option value="L">L</Option>
+            <Option value="XL">XL</Option>
+            <Option value="F">F</Option>
           </Select>
         </Filter>
         <Filter>
           <FilterText>Urutkan: </FilterText>
-          <Select>
-            <Option selected>Paling Sesuai</Option>
-            <Option>Terbaru</Option>
-            <Option>Harga Terendah</Option>
-            <Option>harga Tertinggi</Option>
-            <Option>Jenis Produk</Option>
+          <Select onChange={(e) => setSort(e.target.value)}>
+            <Option value="sesuai">Paling Sesuai</Option>
+            <Option value="terbaru">Terbaru</Option>
+            <Option value="terendah">Harga Terendah</Option>
+            <Option value="tertinggi">harga Tertinggi</Option>
+            <Option value="jenis">Jenis Produk</Option>
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
+      <Products cat={cat} filters={filters} sort={sort} />
+
       <Newsletter />
       <Footer />
     </Container>

@@ -27,16 +27,19 @@ export const categories = [
     id: 1,
     img: "https://images.unsplash.com/photo-1524235975426-093c4bf9a327?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
     title: "VARIANT GENTENG",
+    cat: "Genteng",
   },
   {
     id: 2,
     img: "https://images.unsplash.com/photo-1496098236379-e7c6cfb4a70d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80",
     title: "TEMBOK & BATU BATA",
+    cat: "Bata",
   },
   {
     id: 3,
     img: "https://images.unsplash.com/photo-1532570204726-145c7199f10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
     title: "KERAJINAN GERABAH",
+    cat: "Gerabah",
   },
 ];
 
